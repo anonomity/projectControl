@@ -1,16 +1,63 @@
-import React from 'react';
-import logo from './logo.svg';
+import React,{Component } from 'react';
 import './App.css';
-import Project from "./components/Project";
+// import ProjectList from "./components/ProjectList/projectList";
+import Project from "./components/Project/Project";
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <Project  title="TypeScript Developer"/>
-      </header>
-    </div>
-  );
+interface Projects {
+  title: string,
+}
+
+
+
+interface IState {
+  isClicked: boolean;
+  Projects: Array<Projects>
+}
+
+class App extends Component<{},IState> {
+  public readonly state = {
+    isClicked: false,
+    Projects:[
+      {title: "Node Developer"}]
+    
+  };
+
+  private handleClick = () => {
+    let copy = this.state.isClicked
+    this.setState({ isClicked: !copy });
+    console.log(this.state.isClicked)
+  }
+  render() {
+    let show : any
+    
+    if(this.state.isClicked){
+      show = (
+        // <ProjectList List={this.state.Projects} />
+        <div>
+          <Project title="Node Developer" />
+          <Project title="Typescript Developer" />
+          <Project title="Habit Tracker" />
+        </div>
+        
+
+        
+      )
+    }
+    else {
+      show = (
+        <h1 onClick = {this.handleClick}>Organize Projects</h1>
+      )
+    }
+    return (
+      <div className="App">
+        <header className="App-header">
+          
+          {show}
+        </header>
+      </div>
+    );
+  }
+  
 }
 
 export default App;
