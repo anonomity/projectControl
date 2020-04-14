@@ -2,27 +2,33 @@ import React, {Component} from "react";
 import Project from "../Project/Project";
 
 interface Projects {
-    title: string,
+    title: string;
+    dateStarted? : string;
+    progress? : number;
+    click: boolean;
   }
 
 interface ProjectItems {
-    List: Array<Projects>,
+    list: Array<Projects>,
    // dateStarted: string
-   
 }
 
-class ProjectList extends Component<{},ProjectItems> {
+
+
+class ProjectList extends Component<ProjectItems,{}> {
     render(){
-        // return this.props.List.map((project, index) => {
+        return this.props.list.map((project, index) => {
         return (
-        //   <Project
-        //     title={project.title}
-        //   />
-        <div>
-            <h1>Test</h1>
-        </div>
+          <Project
+            click={() => this.props.click(index)}
+            key={index}
+            title={project.title}
+            progress={project.progress}
+            dateStarted={project.dateStarted}
+          />
+      
         );
-    //   });
+      });
     }
     
 }

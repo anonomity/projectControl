@@ -1,24 +1,33 @@
 import React,{Component } from 'react';
 import './App.css';
-// import ProjectList from "./components/ProjectList/projectList";
-import Project from "./components/Project/Project";
+import ProjectList from "./components/ProjectList/projectList";
 
-interface Projects {
+
+interface Project {
   title: string,
+  dateStarted? : string;
+  progress? : number;
+  
 }
 
-
+interface Projects {
+  list: Array<Project>
+  click: boolean;
+}
 
 interface IState {
   isClicked: boolean;
-  Projects: Array<Projects>
+  Projects: Array<Project>
 }
+
 
 class App extends Component<{},IState> {
   public readonly state = {
     isClicked: false,
     Projects:[
-      {title: "Node Developer"}]
+      {title: "Node Developer", progress: 4, dateStarted: new Date('2020-04-5').toString()},
+      {title: "TypeScript Language", progress: 5, dateStarted: new Date('2020-04-10').toString()},
+      {title: "Machine Learning Course"}]
     
   };
 
@@ -27,20 +36,22 @@ class App extends Component<{},IState> {
     this.setState({ isClicked: !copy });
     console.log(this.state.isClicked)
   }
+
+
+  private deleteProjectHandler = (indexProject : number) => {
+    const project = this.state.Projects;
+    project.splice(indexProject, 1);
+    this.setState({
+      Projects: project
+    });
+  };
+
   render() {
     let show : any
     
     if(this.state.isClicked){
       show = (
-        // <ProjectList List={this.state.Projects} />
-        <div>
-          <Project title="Node Developer" />
-          <Project title="Typescript Developer" />
-          <Project title="Habit Tracker" />
-        </div>
-        
-
-        
+        <ProjectList list= {this.state.Projects} click= {this.deleteProjectHandler} />             
       )
     }
     else {
